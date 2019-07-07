@@ -1,32 +1,29 @@
 package com.bia.sandbox;
 
+import com.google.api.client.util.DateTime;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.bigquery.BigQuery;
+import com.google.cloud.bigquery.BigQueryOptions;
+import com.google.cloud.bigquery.Dataset;
+import com.hashmapinc.tempus.WitsmlObjects.Util.WitsmlMarshal;
+import com.hashmapinc.tempus.WitsmlObjects.v1411.CsMudLogParameter;
+import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLog;
+import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLogs;
+import org.apache.commons.cli.*;
+
+import javax.xml.bind.JAXBException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Iterator;
 import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXBException;
-
-import com.google.auth.oauth2.ServiceAccountCredentials;
-import com.google.cloud.bigquery.*;
-import com.hashmapinc.tempus.WitsmlObjects.Util.WitsmlMarshal;
-import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLogs;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 
 /**
  * Hello world!
  */
 public class App {
-    public static void main(String[] args) throws IOException, InterruptedException, ParseException {
+    public static void main(String[] args) throws IOException, JAXBException, ParseException {
 
         Options options = new Options();
         options.addOption("o", true, "WITSML object name (ex: mudLogs)");
@@ -53,39 +50,95 @@ public class App {
 
             String tableName = "mudLogs";
 
-            String mudlogsXML = null;
-            mudlogsXML = Files.lines(Paths.get(xmlFile)).collect(Collectors.joining("\n"));
+            // Read WITSML value
+            String mudlogsXML = Files.lines(Paths.get(xmlFile)).collect(Collectors.joining("\n"));
+            ObjMudLogs mudLogsObj = WitsmlMarshal.deserialize(mudlogsXML, ObjMudLogs.class);
 
-            ObjMudLogs mudlogs = null;
-            try {
-                mudlogs = WitsmlMarshal.deserialize(mudlogsXML, ObjMudLogs.class);
-                System.out.println(mudlogs.getMudLog().size());
-                System.out.println(mudlogs.getMudLog().get(0).getUid());
-            } catch (JAXBException ex) {
-                ex.printStackTrace();
-            }
-
+            // Create BigQuery connection
             BigQuery bigquery = BigQueryOptions.newBuilder().setProjectId(gcpProjectName)
                     .setCredentials(ServiceAccountCredentials.fromStream(new FileInputStream(gcpKeyPath)))
                     .build().getService();
 
-            // Create tables
-            TableId tableId = TableId.of(dataSetName, tableName);
-
             // check if table exists, create new one if not
             if(! isExisting(bigquery, dataSetName, tableName)){
-                // Table field definition
-                List<Field> fields = new ArrayList<>(Arrays.asList(Field.of("nameWell", LegacySQLTypeName.STRING),
-                Field.of("nameWellbore", LegacySQLTypeName.STRING)));
 
-                // Table schema definition
-                Schema schema = Schema.of(fields);
-                TableDefinition tableDefinition = StandardTableDefinition.of(schema);
-                TableInfo tableInfo = TableInfo.newBuilder(tableId, tableDefinition).build();
-                Table table = bigquery.create(tableInfo);
-                System.out.println("Table " + table.getFriendlyName() + " has been created.");
+                System.out.println("Table " + tableName + " is not exist.");
+
+                // // Table field definition
+                // List<Field> fields = new ArrayList<>(Arrays.asList(Field.of("nameWell", LegacySQLTypeName.STRING),
+                // Field.of("nameWellbore", LegacySQLTypeName.STRING)));
+
+                // // Table schema definition
+                // Schema schema = Schema.of(fields);
+                // TableDefinition tableDefinition = StandardTableDefinition.of(schema);
+                // TableInfo tableInfo = TableInfo.newBuilder(tableId, tableDefinition).build();
+                // Table table = bigquery.create(tableInfo);
+                // System.out.println("Table " + table.getFriendlyName() + " has been created.");
             }else{
-                System.out.println("Table " + tableName + " is already exist.");
+                System.out.println("Number of mudLog=" + mudLogsObj.getMudLog().size());
+
+                Iterator<ObjMudLog> mudLogsIter = mudLogsObj.getMudLog().iterator();
+                while(mudLogsIter.hasNext()){
+                    ObjMudLog mudLogObj = mudLogsIter.next();
+
+                    // main mudLogBQ object
+                    MudLogBQ mudLogBQ = new MudLogBQ(bigquery, dataSetName, "mudLogs");
+                    mudLogBQ.setUid(mudLogObj.getUid());
+                    mudLogBQ.setUidWell(mudLogObj.getUidWell());
+                    mudLogBQ.setUidWellbore(mudLogObj.getUidWellbore());
+                    mudLogBQ.setNameWell(mudLogObj.getNameWell());
+                    mudLogBQ.setNameWellbore(mudLogObj.getNameWellbore());
+                    mudLogBQ.setName(mudLogObj.getName());
+                    mudLogBQ.setdTim(new DateTime(mudLogObj.getDTim().toGregorianCalendar().getTime()));
+                    mudLogBQ.setMudLogCompany(mudLogObj.getMudLogCompany());
+                    mudLogBQ.setMudLogEngineers(mudLogObj.getMudLogEngineers());
+                    mudLogBQ.setStartMd(new Float(mudLogObj.getStartMd().getValue()));
+                    mudLogBQ.setStartMd_uom(mudLogObj.getStartMd().getUom().value());
+                    mudLogBQ.setEndMd(new Float(mudLogObj.getEndMd().getValue()));
+                    mudLogBQ.setEndMd_uom(mudLogObj.getEndMd().getUom().value());
+                    mudLogBQ.setCommonData_dTimCreation(
+                            new DateTime(mudLogObj.getCommonData().getDTimCreation().toGregorianCalendar().getTime()));
+                    mudLogBQ.setCommonData_dTimLastChange(
+                            new DateTime(mudLogObj.getCommonData().getDTimLastChange().toGregorianCalendar().getTime()));
+                    mudLogBQ.setCommonData_itemState(mudLogObj.getCommonData().getItemState().value());
+                    mudLogBQ.setCommonData_defaultDatum(mudLogObj.getCommonData().getDefaultDatum().getValue());
+
+                    // save mudLogBQ
+                    System.out.println("Insert mudLogObj uid=" + mudLogObj.getUid());
+                    mudLogBQ.save();
+
+                    // parameters
+                    Iterator<CsMudLogParameter> csMudLogParameterIterator = mudLogObj.getParameter().iterator();
+                    System.out.println("Number of parameters=" + mudLogObj.getParameter().size());
+                    while (csMudLogParameterIterator.hasNext()) {
+                        CsMudLogParameter csMudLogParameter = csMudLogParameterIterator.next();
+
+                        MudLogParameterBQ mudLogParameterBQ = new MudLogParameterBQ(bigquery, dataSetName, "mudLogs_parameters");
+                        mudLogParameterBQ.setUid(csMudLogParameter.getUid());
+                        mudLogParameterBQ.setUid_mudLogs(mudLogBQ.getUid());
+                        mudLogParameterBQ.setType(csMudLogParameter.getType().value());
+//                        try {
+//                            mudLogParameterBQ.setdTime(new DateTime(
+//                                    csMudLogParameter.getDTime().toGregorianCalendar().getTime()));
+//                        }catch (NullPointerException e){
+//                            e.printStackTrace();
+//                        }
+                        mudLogParameterBQ.setMdTop(new Float(csMudLogParameter.getMdTop().getValue()));
+                        mudLogParameterBQ.setMdTop_uom(csMudLogParameter.getMdTop().getUom().value());
+                        mudLogParameterBQ.setMdBottom(new Float(csMudLogParameter.getMdBottom().getValue()));
+                        mudLogParameterBQ.setMdBottom_uom(csMudLogParameter.getMdBottom().getUom().value());
+                        mudLogParameterBQ.setText(csMudLogParameter.getText());
+                        mudLogParameterBQ.setCommonTime_dTimCreation(new DateTime(
+                                csMudLogParameter.getCommonTime().getDTimCreation().toGregorianCalendar().getTime()));
+                        mudLogParameterBQ.setCommonTime_dTimLastChange(new DateTime(
+                                csMudLogParameter.getCommonTime().getDTimCreation().toGregorianCalendar().getTime()));
+
+                        // save parameter
+                        System.out.println("Insert parameter uid=" + mudLogParameterBQ.getUid());
+                        mudLogParameterBQ.save();
+                    }
+                }
+
             }
 
         }else{
