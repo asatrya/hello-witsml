@@ -3,10 +3,7 @@ package com.bia.sandbox;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.Dataset;
 import com.hashmapinc.tempus.WitsmlObjects.Util.WitsmlMarshal;
-import com.hashmapinc.tempus.WitsmlObjects.v1411.CsGeologyInterval;
-import com.hashmapinc.tempus.WitsmlObjects.v1411.CsMudLogParameter;
-import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLog;
-import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLogs;
+import com.hashmapinc.tempus.WitsmlObjects.v1411.*;
 import org.apache.commons.cli.*;
 
 import javax.xml.bind.JAXBException;
@@ -101,6 +98,17 @@ public class App {
                         MudLogGeologyIntervalDao mudLogGeologyIntervalDaoImpl = new MudLogGeologyIntervalDaoImpl();
                         System.out.println("Insert GeologyInterval; uid=" + csGeologyInterval.getUid());
                         mudLogGeologyIntervalDaoImpl.save(csGeologyInterval, mudLogObj);
+
+                        // lithology
+                        Iterator<CsLithology> csLithologyIterator = csGeologyInterval.getLithology().iterator();
+                        System.out.println("Number of lithology=" + csGeologyInterval.getLithology().size());
+                        while(csLithologyIterator.hasNext()){
+                            CsLithology csLithology = csLithologyIterator.next();
+
+                            MudLogLithologyDao mudLogLithologyDaoImpl = new MudLogLithologyDaoImpl();
+                            System.out.println("Insert Lithology; uid=" + csLithology.getUid());
+                            mudLogLithologyDaoImpl.save(csLithology, csGeologyInterval);
+                        }
                     }
                 }
 
