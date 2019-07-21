@@ -108,6 +108,17 @@ public class App {
                             MudLogLithologyDao mudLogLithologyDaoImpl = new MudLogLithologyDaoImpl();
                             System.out.println("Insert Lithology; uid=" + csLithology.getUid());
                             mudLogLithologyDaoImpl.save(csLithology, csGeologyInterval);
+
+                            // qualifier
+                            Iterator<CsQualifier> csQualifierIterator = csLithology.getQualifier().iterator();
+                            System.out.println("Number of qualifier=" + csLithology.getQualifier().size());
+                            while(csQualifierIterator.hasNext()){
+                                CsQualifier csQualifier = csQualifierIterator.next();
+
+                                MudLogQualifierDao mudLogQualifierDaoImpl = new MudLogQualifierDaoImpl();
+                                System.out.println("Insert Qualifiery; uid=" + csQualifier.getUid());
+                                mudLogQualifierDaoImpl.save(csQualifier, csLithology);
+                            }
                         }
                     }
                 }
