@@ -133,6 +133,21 @@ public class App {
                                     + lithostratigraphyStruct.getValue());
                             mudLogLithostatigraphicDaoImpl.save(lithostratigraphyStruct, csGeologyInterval);
                         }
+
+                        // Chronostatigraphic
+                        Iterator<ChronostratigraphyStruct> chronostratigraphyStructIterator =
+                                csGeologyInterval.getChronostratigraphic().iterator();
+                        System.out.println("Number of Chronostratigraphic=" + csGeologyInterval.getChronostratigraphic().size());
+                        while (chronostratigraphyStructIterator.hasNext()){
+                            ChronostratigraphyStruct chronostratigraphyStruct = chronostratigraphyStructIterator.next();
+
+                            MudLogChronostatigraphicDao mudLogChronostatigraphicDaoImpl =
+                                    new MudLogChronostatigraphicDaoImpl();
+                            System.out.println("Insert Chronostatigraphic; kind/value="
+                                    + chronostratigraphyStruct.getKind().value() + "/"
+                                    + chronostratigraphyStruct.getValue());
+                            mudLogChronostatigraphicDaoImpl.save(chronostratigraphyStruct, csGeologyInterval);
+                        }
                     }
                 }
 
