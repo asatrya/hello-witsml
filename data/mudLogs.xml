@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="./stylesheets/generic.xsl" type="text/xsl" media="screen"?>
+<?xml-stylesheet href="../stylesheets/mudLog.xsl" type="text/xsl" media="screen"?>
 <!--   			Example of Mud Log data 		-->
-<mudLogs 
-	xmlns="http://www.witsml.org/schemas/1series" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_mudLog.xsd"
-	version="1.4.1.1">
-<!-- 
-These examples are only intended to demonstrate the type of data that can be exchanged.
-They totally artificial and are not intended to demonstrate best practices. 
--->
+<mudLogs
+		xmlns="http://www.witsml.org/schemas/1series"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.witsml.org/schemas/1series  ../xsd_schemas/obj_mudLog.xsd"
+		version="1.4.0.0">
+	<!--
+    These examples are only intended to demonstrate the type of data that can be exchanged.
+    They totally artificial and are not intended to demonstrate best practices.
+    -->
 	<documentInfo>
-		<documentName>mudLogBQ</documentName>
+		<documentName>mudLog</documentName>
 		<fileCreationInformation>
-			<fileCreationDate>2011-09-15T16:15:31.827Z</fileCreationDate> 
+			<fileCreationDate>2001-10-31T08:15:00.000Z</fileCreationDate>
 			<fileCreator>John Smith</fileCreator>
 		</fileCreationInformation>
 	</documentInfo>
@@ -21,50 +21,35 @@ They totally artificial and are not intended to demonstrate best practices.
 		<nameWell>6507/7-A-42</nameWell>
 		<nameWellbore>A-42</nameWellbore>
 		<name>m1001</name>
-		<objectGrowing>true</objectGrowing>
-		<dTim>2011-09-15T15:30:00.402Z</dTim>
+		<dTim>2001-07-15T15:30:00.000Z</dTim>
 		<mudLogCompany>Mud log company</mudLogCompany>
 		<mudLogEngineers>Mud log Engineers</mudLogEngineers>
-		<startMd uom="ft">8920.19</startMd>
-		<endMd uom="ft">9420</endMd>
-		<parameter uid="00001">
+		<startMd uom="ft">5000</startMd>
+		<endMd uom="ft">5030</endMd>
+		<parameter uid="param-1">
 			<type>midnight depth date</type>
-			<mdTop uom="ft">8920.19</mdTop>
-			<mdBottom uom="ft">8920.19</mdBottom>
-			<text>2011/09/15</text>
-			<commonTime>
-				<dTimCreation>2011-09-15T00:00:00.000Z</dTimCreation>
-				<dTimLastChange>2011-09-15T00:00:00.000Z</dTimLastChange>
-			</commonTime>
+			<mdTop uom="ft">11695</mdTop>
+			<text>2002/12/07</text>
 		</parameter>
-		<parameter uid="00002">
+		<parameter uid="param-2">
 			<type>core interval comment</type>
-			<mdTop uom="ft">9010</mdTop>
-			<mdBottom uom="ft">9070</mdBottom>
-			<text>Core #3. Core 8 1/2 inches from 9010 MD to 9070 MD, recovered 98%</text>
-			<commonTime>
-				<dTimCreation>2011-09-15T03:14:27.166Z</dTimCreation>
-				<dTimLastChange>2011-09-15T03:14:27.166Z</dTimLastChange>
-			</commonTime>
+			<mdTop uom="ft">9000</mdTop>
+			<mdBottom uom="ft">9090</mdBottom>
+			<text>Core #3. Core 8 1/2 inches from 9000 MD to 9090 MD, recovered 98%</text>
 		</parameter>
-		<parameter uid="00003">
+		<parameter uid="param-3">
 			<type>overpull on connection</type>
-			<mdTop uom="ft">9195.42</mdTop>
-			<mdBottom uom="ft">9195.42</mdBottom>
+			<mdTop uom="ft">11695</mdTop>
 			<force uom="klbf">50</force>
 			<text>50 Klb o/p on connection</text>
-			<commonTime>
-				<dTimCreation>2011-09-15T04:37:51.819Z</dTimCreation>
-				<dTimLastChange>2011-09-15T04:37:51.819Z</dTimLastChange>
-			</commonTime>
 		</parameter>
-		<geologyInterval uid="00001">
+		<geologyInterval uid="MLGI-1003">
 			<typeLithology>cuttings</typeLithology>
-			<mdTop uom="ft">8990</mdTop>
-			<mdBottom uom="ft">9420</mdBottom>
-			<dTim>2011-09-15T02:45:36.381Z</dTim>
-			<tvdTop uom="ft">7236.72</tvdTop>
-			<tvdBase uom="ft">7680.39</tvdBase>
+			<mdTop uom="ft">5000</mdTop>
+			<mdBottom uom="ft">5030</mdBottom>
+			<dTim>2001-10-31T08:15:00.000Z</dTim>
+			<tvdTop uom="ft">4675</tvdTop>
+			<tvdBase uom="ft">4680</tvdBase>
 			<ropAv uom="ft/h">12</ropAv>
 			<ropMn uom="ft/h">10</ropMn>
 			<ropMx uom="ft/h">15</ropMx>
@@ -74,25 +59,31 @@ They totally artificial and are not intended to demonstrate best practices.
 			<wtMudAv uom="lbm/ft3">10.5</wtMudAv>
 			<ecdTdAv uom="lbm/ft3">10.6</ecdTdAv>
 			<dxcAv>0.95</dxcAv>
-			<lithology uid="00001">
+			<lithology uid="Lith001">
 				<type>Sandstone</type>
-				<description>Sandstone: vf-f, clr-frost, mod srt, gd vis por</description>
-				<color>frosted</color>
-				<texture>friable</texture>
-				<hardness>moderately hard</hardness>
-				<sizeGrain>fine sand</sizeGrain>
-				<roundness>well rounded</roundness>
-				<sorting>well sorted</sorting>
+				<codeLith>SS</codeLith>
+				<lithPc uom="%">100</lithPc>
+				<description>Sandstone: vf -f, clr-frost, mod srt, gd vis por</description>
+				<lithClass>Lithology Classification</lithClass>
+				<grainType>Grain type</grainType>
+				<dunhamClass>Durham Class</dunhamClass>
+				<color>Cir</color>
+				<texture>Friable</texture>
+				<hardness>Mod Hd</hardness>
+				<sizeGrain>Fine</sizeGrain>
+				<roundness>Mod Rnd</roundness>
+				<sorting>Good</sorting>
 				<matrixCement>Calcite</matrixCement>
-				<porosityVisible>moderate</porosityVisible>
-				<permeability>fairly permeable</permeability>
+				<porosityVisible>Mod</porosityVisible>
+				<permeability>Permeability desc</permeability>
 				<densShale uom="g/cm3">2.6</densShale>
-				<qualifier uid="00001">
-					<type>pyrite</type>
+				<qualifier uid="MLQ-001">
+					<type>Pyrite</type>
 					<abundance uom="%">10</abundance>
+					<abundanceCode>sparse</abundanceCode>
 					<description>lg crystals</description>
 				</qualifier>
-			</lithology> // belum
+			</lithology>
 			<show>
 				<showRat>good</showRat>
 				<stainColor>brown</stainColor>
@@ -118,14 +109,14 @@ They totally artificial and are not intended to demonstrate best practices.
 				<odor>petrol</odor>
 			</show>
 			<chromatograph>
-				<dTim>2011-09-15T04:34:25.270Z</dTim>
-				<mdTop uom="ft">9210.41</mdTop>
-				<mdBottom uom="ft">9291.93</mdBottom>
+				<dTim>2001-08-31T08:15:00.000Z</dTim>
+				<mdTop uom="ft">5000</mdTop>
+				<mdBottom uom="ft">5030</mdBottom>
 				<wtMudIn uom="lbm/ft3">10.5</wtMudIn>
 				<wtMudOut uom="lbm/ft3">10.5</wtMudOut>
-				<chromType>Flame Ion Detect</chromType>
+				<chromType>Chrom Type</chromType>
 				<eTimChromCycle uom="s">30</eTimChromCycle>
-				<chromIntRpt>2011-09-15T04:29:33.579Z</chromIntRpt>
+				<chromIntRpt>2001-08-31T08:15:00.000Z</chromIntRpt>
 				<methAv uom="ppm">600</methAv>
 				<methMn uom="ppm">500</methMn>
 				<methMx uom="ppm">700</methMx>
@@ -179,27 +170,21 @@ They totally artificial and are not intended to demonstrate best practices.
 			<dolomite uom="%">1</dolomite>
 			<cec uom="meq/g">.099</cec>
 			<calcStab uom="%">.099</calcStab>
-			<lithostratigraphic kind="formation">Rotliegende</lithostratigraphic> // belum
-			<chronostratigraphic kind="period">Permian</chronostratigraphic> // belum
-			<chronostratigraphic kind="epoch">Cisuralian</chronostratigraphic> // belum
-			<chronostratigraphic kind="stage">Sakmarian</chronostratigraphic> // belum
+			<nameFormation>Rotliegende</nameFormation>
+			<lithostratigraphic>lithostratigraphic name</lithostratigraphic>
+			<chronostratigraphic>Permian</chronostratigraphic>
 			<sizeMn uom="in">.099</sizeMn>
 			<sizeMx uom="in">.099</sizeMx>
 			<lenPlug uom="in">.099</lenPlug>
-			<description>Sandstone: vf-f, clr-frost, mod srt, gd vis por</description>
-			<cuttingFluid>Chlorothene</cuttingFluid>
-			<cleaningMethod>Agitene</cleaningMethod>
-			<dryingMethod>Spin Dryer</dryingMethod>
-			<commonTime>
-				<dTimCreation>2011-09-15T15:30:00.000Z</dTimCreation>
-				<dTimLastChange>2011-09-15T15:30:00.000Z</dTimLastChange>
-			</commonTime>
+			<description>Sandstone: vf -f, clr-frost, mod srt, gd vis por</description>
+			<cuttingFluid>cuttingFluid desc</cuttingFluid>
+			<cleaningMethod>dryingMethod desc</cleaningMethod>
+			<dryingMethod>dryingMethod desc</dryingMethod>
+			<comments>Geology Interval comments</comments>
 		</geologyInterval>
 		<commonData>
-			<dTimCreation>2011-09-14T19:26:42.129Z</dTimCreation>
-			<dTimLastChange>2011-09-15T16:15:33.591Z</dTimLastChange>
-			<itemState>actual</itemState>
-			<defaultDatum>KB</defaultDatum>
+			<itemState>plan</itemState>
+			<comments>Core was cleanly recovered and boxed at rig</comments>
 		</commonData>
 	</mudLog>
 </mudLogs>
