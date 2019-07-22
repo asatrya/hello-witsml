@@ -24,7 +24,9 @@ public class MudLogChronostatigraphicDaoImpl implements MudLogChronostatigraphic
     public void save(ChronostratigraphyStruct chronostratigraphyStruct, CsGeologyInterval csGeologyInterval) {
         TableRow data = new TableRow();
         data.set("uid_geologyinterval", csGeologyInterval.getUid());
-        data.set("kind", chronostratigraphyStruct.getKind().value());
+        if(chronostratigraphyStruct.getKind() != null){
+            data.set("kind", chronostratigraphyStruct.getKind().value());
+        }
         data.set("value", chronostratigraphyStruct.getValue());
 
         InsertAllRequest request = null;

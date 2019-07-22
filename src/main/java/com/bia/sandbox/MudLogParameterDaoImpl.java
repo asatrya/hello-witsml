@@ -24,15 +24,35 @@ public class MudLogParameterDaoImpl implements MudLogParameterDao {
         TableRow data = new TableRow();
         data.set("uid", csMudLogParameter.getUid());
         data.set("uid_mudLogs", objMudLog.getUid());
-        data.set("type", csMudLogParameter.getType().value());
-        data.set("dTime", BQUtil.convertToBQDate(csMudLogParameter.getDTime()));
-        data.set("mdTop", csMudLogParameter.getMdTop().getValue());
-        data.set("mdTop_uom", csMudLogParameter.getMdTop().getUom().value());
-        data.set("mdBottom", csMudLogParameter.getMdBottom().getValue());
-        data.set("mdBottom_uom", csMudLogParameter.getMdBottom().getUom().value());
-        data.set("text", csMudLogParameter.getText());
-        data.set("commonTime_dTimCreation", BQUtil.convertToBQDate(csMudLogParameter.getCommonTime().getDTimCreation()));
-        data.set("commonTime_dTimLastChange", BQUtil.convertToBQDate(csMudLogParameter.getCommonTime().getDTimLastChange()));
+        if(csMudLogParameter.getType() != null){
+            data.set("type", csMudLogParameter.getType().value());
+        }
+        if(csMudLogParameter.getDTime() != null){
+            data.set("dTime", BQUtil.convertToBQDate(csMudLogParameter.getDTime()));
+        }
+        if(csMudLogParameter.getMdTop() != null){
+            data.set("mdTop", csMudLogParameter.getMdTop().getValue());
+        }
+        if(csMudLogParameter.getMdTop() != null){
+            data.set("mdTop_uom", csMudLogParameter.getMdTop().getUom().value());
+        }
+        if(csMudLogParameter.getMdBottom() != null){
+            data.set("mdBottom", csMudLogParameter.getMdBottom().getValue());
+        }
+        if(csMudLogParameter.getMdBottom() != null){
+            data.set("mdBottom_uom", csMudLogParameter.getMdBottom().getUom().value());
+        }
+        if(csMudLogParameter.getText() != null){
+            data.set("text", csMudLogParameter.getText());
+        }
+        if(csMudLogParameter.getCommonTime() != null){
+            if(csMudLogParameter.getCommonTime().getDTimCreation() != null){
+                data.set("commonTime_dTimCreation", BQUtil.convertToBQDate(csMudLogParameter.getCommonTime().getDTimCreation()));
+            }
+            if(csMudLogParameter.getCommonTime().getDTimLastChange() != null){
+                data.set("commonTime_dTimLastChange", BQUtil.convertToBQDate(csMudLogParameter.getCommonTime().getDTimLastChange()));
+            }
+        }
 
         InsertAllResponse response =
                 this.bigQuery.insertAll(

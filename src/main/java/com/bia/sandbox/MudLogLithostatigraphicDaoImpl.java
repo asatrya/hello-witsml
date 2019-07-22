@@ -24,7 +24,9 @@ public class MudLogLithostatigraphicDaoImpl implements MudLogLithostatigraphicDa
     public void save(LithostratigraphyStruct lithostratigraphyStruct, CsGeologyInterval csGeologyInterval) {
         TableRow data = new TableRow();
         data.set("uid_geologyinterval", csGeologyInterval.getUid());
-        data.set("kind", lithostratigraphyStruct.getKind().value());
+        if(lithostratigraphyStruct.getKind() != null){
+            data.set("kind", lithostratigraphyStruct.getKind().value());
+        }
         data.set("value", lithostratigraphyStruct.getValue());
 
         InsertAllRequest request = null;

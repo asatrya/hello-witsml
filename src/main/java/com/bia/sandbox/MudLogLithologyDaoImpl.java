@@ -25,19 +25,45 @@ public class MudLogLithologyDaoImpl implements MudLogLithologyDao{
         TableRow data = new TableRow();
         data.set("uid", csLithology.getUid());
         data.set("uid_geologyInterval", csGeologyInterval.getUid());
-        data.set("type", csLithology.getType());
-        data.set("description", csLithology.getDescription());
-        data.set("color", csLithology.getColor());
-        data.set("texture", csLithology.getTexture());
-        data.set("hardness", csLithology.getHardness());
-        data.set("sizeGrain", csLithology.getSizeGrain());
-        data.set("roundness", csLithology.getRoundness());
-        data.set("sorting", csLithology.getSorting());
-        data.set("matrixCement", csLithology.getMatrixCement());
-        data.set("porosityVisible", csLithology.getPorosityVisible());
-        data.set("permeability", csLithology.getPermeability());
-        data.set("densShale", csLithology.getDensShale().getValue());
-        data.set("densShale_uom", csLithology.getDensShale().getUom());
+        if(csLithology.getType() != null){
+            data.set("type", csLithology.getType());
+        }
+        if(csLithology.getDescription() != null){
+            data.set("description", csLithology.getDescription());
+        }
+        if(csLithology.getColor() != null){
+            data.set("color", csLithology.getColor());
+        }
+        if(csLithology.getTexture() != null){
+            data.set("texture", csLithology.getTexture());
+        }
+        if(csLithology.getHardness() != null){
+            data.set("hardness", csLithology.getHardness());
+        }
+        if(csLithology.getSizeGrain() != null){
+            data.set("sizeGrain", csLithology.getSizeGrain());
+        }
+        if(csLithology.getRoundness() != null){
+            data.set("roundness", csLithology.getRoundness());
+        }
+        if(csLithology.getSorting() != null){
+            data.set("sorting", csLithology.getSorting());
+        }
+        if(csLithology.getMatrixCement() != null){
+            data.set("matrixCement", csLithology.getMatrixCement());
+        }
+        if(csLithology.getPorosityVisible() != null){
+            data.set("porosityVisible", csLithology.getPorosityVisible());
+        }
+        if(csLithology.getPermeability() != null){
+            data.set("permeability", csLithology.getPermeability());
+        }
+        if(csLithology.getDensShale() != null){
+            data.set("densShale", csLithology.getDensShale().getValue());
+        }
+        if(csLithology.getDensShale() != null){
+            data.set("densShale_uom", csLithology.getDensShale().getUom());
+        }
 
         InsertAllRequest request = null;
         try{

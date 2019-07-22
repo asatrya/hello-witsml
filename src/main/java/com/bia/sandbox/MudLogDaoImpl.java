@@ -22,22 +22,56 @@ class MudLogDaoImpl implements MudLogDao {
     public void save(ObjMudLog mudLogObj) {
         TableRow data = new TableRow();
         data.set("uid", mudLogObj.getUid());
-        data.set("uidWell", mudLogObj.getUidWell());
-        data.set("uidWellbore", mudLogObj.getUidWellbore());
-        data.set("nameWell", mudLogObj.getNameWell());
-        data.set("nameWellbore", mudLogObj.getNameWellbore());
-        data.set("name", mudLogObj.getName());
-        data.set("dTim", BQUtil.convertToBQDate(mudLogObj.getDTim()));
-        data.set("mudLogCompany", mudLogObj.getMudLogCompany());
-        data.set("mudLogEngineers", mudLogObj.getMudLogEngineers());
-        data.set("startMd", mudLogObj.getStartMd().getValue());
-        data.set("startMd_uom", mudLogObj.getStartMd().getUom().value());
-        data.set("endMd", mudLogObj.getEndMd().getValue());
-        data.set("endMd_uom", mudLogObj.getEndMd().getUom().value());
-        data.set("commonData_dTimCreation", BQUtil.convertToBQDate(mudLogObj.getCommonData().getDTimCreation()));
-        data.set("commonData_dTimLastChange", BQUtil.convertToBQDate(mudLogObj.getCommonData().getDTimLastChange()));
-        data.set("commonData_itemState", mudLogObj.getCommonData().getItemState().value());
-        data.set("commonData_defaultDatum", mudLogObj.getCommonData().getDefaultDatum().getValue());
+        if(mudLogObj.getUidWell() != null){
+            data.set("uidWell", mudLogObj.getUidWell());
+        }
+        if(mudLogObj.getUidWellbore() != null){
+            data.set("uidWellbore", mudLogObj.getUidWellbore());
+        }
+        if(mudLogObj.getNameWell() != null){
+            data.set("nameWell", mudLogObj.getNameWell());
+        }
+        if(mudLogObj.getNameWellbore() != null){
+            data.set("nameWellbore", mudLogObj.getNameWellbore());
+        }
+        if(mudLogObj.getName() != null){
+            data.set("name", mudLogObj.getName());
+        }
+        if(mudLogObj.getDTim() != null){
+            data.set("dTim", BQUtil.convertToBQDate(mudLogObj.getDTim()));
+        }
+        if(mudLogObj.getMudLogCompany() != null){
+            data.set("mudLogCompany", mudLogObj.getMudLogCompany());
+        }
+        if(mudLogObj.getMudLogEngineers() != null){
+            data.set("mudLogEngineers", mudLogObj.getMudLogEngineers());
+        }
+        if(mudLogObj.getStartMd() != null){
+            data.set("startMd", mudLogObj.getStartMd().getValue());
+        }
+        if(mudLogObj.getStartMd() != null){
+            data.set("startMd_uom", mudLogObj.getStartMd().getUom().value());
+        }
+        if(mudLogObj.getEndMd() != null){
+            data.set("endMd", mudLogObj.getEndMd().getValue());
+        }
+        if(mudLogObj.getEndMd() != null){
+            data.set("endMd_uom", mudLogObj.getEndMd().getUom().value());
+        }
+        if(mudLogObj.getCommonData() != null){
+            if(mudLogObj.getCommonData().getDTimCreation() != null){
+                data.set("commonData_dTimCreation", BQUtil.convertToBQDate(mudLogObj.getCommonData().getDTimCreation()));
+            }
+            if(mudLogObj.getCommonData().getDTimLastChange() != null){
+                data.set("commonData_dTimLastChange", BQUtil.convertToBQDate(mudLogObj.getCommonData().getDTimLastChange()));
+            }
+            if(mudLogObj.getCommonData().getItemState() != null){
+                data.set("commonData_itemState", mudLogObj.getCommonData().getItemState().value());
+            }
+            if(mudLogObj.getCommonData().getDefaultDatum() != null){
+                data.set("commonData_defaultDatum", mudLogObj.getCommonData().getDefaultDatum().getValue());
+            }
+        }
 
         InsertAllResponse response =
                 this.bigQuery.insertAll(

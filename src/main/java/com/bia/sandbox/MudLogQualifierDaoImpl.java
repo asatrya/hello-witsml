@@ -26,10 +26,18 @@ public class MudLogQualifierDaoImpl implements MudLogQualifierDao {
         TableRow data = new TableRow();
         data.set("uid", csQualifier.getUid());
         data.set("uid_lithology", csLithology.getUid());
-        data.set("type", csQualifier.getType());
-        data.set("abundance", csQualifier.getAbundance().getValue());
-        data.set("abundance_uom", csQualifier.getAbundance().getUom());
-        data.set("description", csQualifier.getDescription());
+        if(csQualifier.getType() != null){
+            data.set("type", csQualifier.getType());
+        }
+        if(csQualifier.getAbundance() != null){
+            data.set("abundance", csQualifier.getAbundance().getValue());
+        }
+        if(csQualifier.getAbundance() != null){
+            data.set("abundance_uom", csQualifier.getAbundance().getUom());
+        }
+        if(csQualifier.getDescription() != null){
+            data.set("description", csQualifier.getDescription());
+        }
 
         InsertAllRequest request = null;
         try{
