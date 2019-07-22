@@ -120,6 +120,19 @@ public class App {
                                 mudLogQualifierDaoImpl.save(csQualifier, csLithology);
                             }
                         }
+
+                        // Lithostratigraphic
+                        Iterator<LithostratigraphyStruct> lithostratigraphyStructIter = csGeologyInterval.getLithostratigraphic().iterator();
+                        System.out.println("Number of lithostratigraphy=" + csGeologyInterval.getLithostratigraphic().size());
+                        while (lithostratigraphyStructIter.hasNext()){
+                            LithostratigraphyStruct lithostratigraphyStruct = lithostratigraphyStructIter.next();
+
+                            MudLogLithostatigraphicDao mudLogLithostatigraphicDaoImpl = new MudLogLithostatigraphicDaoImpl();
+                            System.out.println("Insert Lithostatigraphic; kind/value="
+                                    + lithostratigraphyStruct.getKind().value() + " / "
+                                    + lithostratigraphyStruct.getValue());
+                            mudLogLithostatigraphicDaoImpl.save(lithostratigraphyStruct, csGeologyInterval);
+                        }
                     }
                 }
 
