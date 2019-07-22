@@ -1,5 +1,8 @@
-package com.bia.sandbox;
+package com.bia.sandbox.mudlog;
 
+import com.bia.sandbox.util.BQUtil;
+import com.bia.sandbox.config.ConnectionFactory;
+import com.bia.sandbox.config.GlobalOptions;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.bigquery.*;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.ObjMudLog;
@@ -8,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-class MudLogDaoImpl implements MudLogDao {
+public class MudLogDaoImpl implements MudLogDao {
 
     private BigQuery bigQuery;
     private TableId tableId;

@@ -1,5 +1,7 @@
-package com.bia.sandbox;
+package com.bia.sandbox.mudlog;
 
+import com.bia.sandbox.config.ConnectionFactory;
+import com.bia.sandbox.config.GlobalOptions;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.bigquery.*;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.ChronostratigraphyStruct;
@@ -9,15 +11,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class MudLogChronostatigraphicDaoImpl implements MudLogChronostatigraphicDao {
+public class ChronostatigraphicDaoImpl implements ChronostatigraphicDao {
 
     private BigQuery bigQuery;
     private TableId tableId;
     private final static String TABLE_NAME = "mudLogs_chronostatigraphic";
 
-    public MudLogChronostatigraphicDaoImpl() throws IOException {
+    public ChronostatigraphicDaoImpl() throws IOException {
         bigQuery = ConnectionFactory.getConnection();
-        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), MudLogChronostatigraphicDaoImpl.TABLE_NAME);
+        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), ChronostatigraphicDaoImpl.TABLE_NAME);
     }
 
     @Override

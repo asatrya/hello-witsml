@@ -1,4 +1,4 @@
-package com.bia.sandbox;
+package com.bia.sandbox.util;
 
 import com.google.api.client.util.DateTime;
 

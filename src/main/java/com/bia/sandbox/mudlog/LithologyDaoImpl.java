@@ -1,5 +1,7 @@
-package com.bia.sandbox;
+package com.bia.sandbox.mudlog;
 
+import com.bia.sandbox.config.ConnectionFactory;
+import com.bia.sandbox.config.GlobalOptions;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.bigquery.*;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.CsGeologyInterval;
@@ -9,15 +11,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class MudLogLithologyDaoImpl implements MudLogLithologyDao{
+public class LithologyDaoImpl implements LithologyDao {
 
     private BigQuery bigQuery;
     private TableId tableId;
     private final static String TABLE_NAME = "mudLogs_lithology";
 
-    public MudLogLithologyDaoImpl() throws IOException {
+    public LithologyDaoImpl() throws IOException {
         bigQuery = ConnectionFactory.getConnection();
-        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), MudLogLithologyDaoImpl.TABLE_NAME);
+        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), LithologyDaoImpl.TABLE_NAME);
     }
 
     @Override

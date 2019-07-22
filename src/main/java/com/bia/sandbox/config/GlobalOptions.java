@@ -1,4 +1,4 @@
-package com.bia.sandbox;
+package com.bia.sandbox.config;
 
 public class GlobalOptions {
     private static GlobalOptions instance = null;

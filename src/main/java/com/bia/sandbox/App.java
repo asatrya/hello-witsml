@@ -1,5 +1,7 @@
 package com.bia.sandbox;
 
+import com.bia.sandbox.config.GlobalOptions;
+import com.bia.sandbox.mudlog.*;
 import com.google.cloud.bigquery.BigQuery;
 import com.google.cloud.bigquery.Dataset;
 import com.hashmapinc.tempus.WitsmlObjects.Util.WitsmlMarshal;
@@ -84,7 +86,7 @@ public class App {
                     while (csMudLogParameterIterator.hasNext()) {
                         CsMudLogParameter csMudLogParameter = csMudLogParameterIterator.next();
 
-                        MudLogParameterDao mudLogParameterImpl = new MudLogParameterDaoImpl();
+                        ParameterDao mudLogParameterImpl = new ParameterDaoImpl();
                         System.out.println("Insert parameter uid=" + csMudLogParameter.getUid());
                         mudLogParameterImpl.save(csMudLogParameter, mudLogObj);
                     }
@@ -95,9 +97,9 @@ public class App {
                     while (csGeologyIntervalIterator.hasNext()) {
                         CsGeologyInterval csGeologyInterval = csGeologyIntervalIterator.next();
 
-                        MudLogGeologyIntervalDao mudLogGeologyIntervalDaoImpl = new MudLogGeologyIntervalDaoImpl();
+                        GeologyIntervalDao geologyIntervalDaoImpl = new GeologyIntervalDaoImpl();
                         System.out.println("Insert GeologyInterval; uid=" + csGeologyInterval.getUid());
-                        mudLogGeologyIntervalDaoImpl.save(csGeologyInterval, mudLogObj);
+                        geologyIntervalDaoImpl.save(csGeologyInterval, mudLogObj);
 
                         // lithology
                         Iterator<CsLithology> csLithologyIterator = csGeologyInterval.getLithology().iterator();
@@ -105,9 +107,9 @@ public class App {
                         while(csLithologyIterator.hasNext()){
                             CsLithology csLithology = csLithologyIterator.next();
 
-                            MudLogLithologyDao mudLogLithologyDaoImpl = new MudLogLithologyDaoImpl();
+                            LithologyDao lithologyDaoImpl = new LithologyDaoImpl();
                             System.out.println("Insert Lithology; uid=" + csLithology.getUid());
-                            mudLogLithologyDaoImpl.save(csLithology, csGeologyInterval);
+                            lithologyDaoImpl.save(csLithology, csGeologyInterval);
 
                             // qualifier
                             Iterator<CsQualifier> csQualifierIterator = csLithology.getQualifier().iterator();
@@ -115,9 +117,9 @@ public class App {
                             while(csQualifierIterator.hasNext()){
                                 CsQualifier csQualifier = csQualifierIterator.next();
 
-                                MudLogQualifierDao mudLogQualifierDaoImpl = new MudLogQualifierDaoImpl();
+                                QualifierDao qualifierDaoImpl = new QualifierDaoImpl();
                                 System.out.println("Insert Qualifiery; uid=" + csQualifier.getUid());
-                                mudLogQualifierDaoImpl.save(csQualifier, csLithology);
+                                qualifierDaoImpl.save(csQualifier, csLithology);
                             }
                         }
 
@@ -127,9 +129,9 @@ public class App {
                         while (lithostratigraphyStructIter.hasNext()){
                             LithostratigraphyStruct lithostratigraphyStruct = lithostratigraphyStructIter.next();
 
-                            MudLogLithostatigraphicDao mudLogLithostatigraphicDaoImpl = new MudLogLithostatigraphicDaoImpl();
+                            LithostatigraphicDao lithostatigraphicDaoImpl = new LithostatigraphicDaoImpl();
                             System.out.println("Insert Lithostatigraphic; kind/value=" + lithostratigraphyStruct.getValue());
-                            mudLogLithostatigraphicDaoImpl.save(lithostratigraphyStruct, csGeologyInterval);
+                            lithostatigraphicDaoImpl.save(lithostratigraphyStruct, csGeologyInterval);
                         }
 
                         // Chronostatigraphic
@@ -139,9 +141,9 @@ public class App {
                         while (chronostratigraphyStructIterator.hasNext()){
                             ChronostratigraphyStruct chronostratigraphyStruct = chronostratigraphyStructIterator.next();
 
-                            MudLogChronostatigraphicDao mudLogChronostatigraphicDaoImpl = new MudLogChronostatigraphicDaoImpl();
+                            ChronostatigraphicDao chronostatigraphicDaoImpl = new ChronostatigraphicDaoImpl();
                             System.out.println("Insert Chronostatigraphic; kind/value="+ chronostratigraphyStruct.getValue());
-                            mudLogChronostatigraphicDaoImpl.save(chronostratigraphyStruct, csGeologyInterval);
+                            chronostatigraphicDaoImpl.save(chronostratigraphyStruct, csGeologyInterval);
                         }
 
                         // NameFormation
@@ -151,10 +153,10 @@ public class App {
                         while (nameFormationIterator.hasNext()){
                             String nameFormation = nameFormationIterator.next();
 
-                            MudLogNameFormationDao mudLogNameFormationDaoImpl =
-                                    new MudLogNameFormationDaoImpl();
+                            NameFormationDao nameFormationDaoImpl =
+                                    new NameFormationDaoImpl();
                             System.out.println("Insert NameFormation; value=" + nameFormation);
-                            mudLogNameFormationDaoImpl.save(nameFormation, csGeologyInterval);
+                            nameFormationDaoImpl.save(nameFormation, csGeologyInterval);
                         }
                     }
                 }

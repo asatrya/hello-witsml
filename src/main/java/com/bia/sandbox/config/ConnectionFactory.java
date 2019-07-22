@@ -1,4 +1,4 @@
-package com.bia.sandbox;
+package com.bia.sandbox.config;
 
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.bigquery.BigQuery;

@@ -1,5 +1,8 @@
-package com.bia.sandbox;
+package com.bia.sandbox.mudlog;
 
+import com.bia.sandbox.util.BQUtil;
+import com.bia.sandbox.config.ConnectionFactory;
+import com.bia.sandbox.config.GlobalOptions;
 import com.google.api.services.bigquery.model.TableRow;
 import com.google.cloud.bigquery.*;
 import com.hashmapinc.tempus.WitsmlObjects.v1411.CsMudLogParameter;
@@ -9,15 +12,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class MudLogParameterDaoImpl implements MudLogParameterDao {
+public class ParameterDaoImpl implements ParameterDao {
 
     private BigQuery bigQuery;
     private TableId tableId;
     private final static String TABLE_NAME = "mudLogs_parameters";
 
-    public MudLogParameterDaoImpl() throws IOException {
+    public ParameterDaoImpl() throws IOException {
         bigQuery = ConnectionFactory.getConnection();
-        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), MudLogParameterDaoImpl.TABLE_NAME);
+        tableId = TableId.of(GlobalOptions.getInstance().getDataSetName(), ParameterDaoImpl.TABLE_NAME);
     }
 
     public void save(CsMudLogParameter csMudLogParameter, ObjMudLog objMudLog) {
