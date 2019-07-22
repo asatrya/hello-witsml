@@ -128,9 +128,7 @@ public class App {
                             LithostratigraphyStruct lithostratigraphyStruct = lithostratigraphyStructIter.next();
 
                             MudLogLithostatigraphicDao mudLogLithostatigraphicDaoImpl = new MudLogLithostatigraphicDaoImpl();
-                            System.out.println("Insert Lithostatigraphic; kind/value="
-                                    + lithostratigraphyStruct.getKind().value() + " / "
-                                    + lithostratigraphyStruct.getValue());
+                            System.out.println("Insert Lithostatigraphic; kind/value=" + lithostratigraphyStruct.getValue());
                             mudLogLithostatigraphicDaoImpl.save(lithostratigraphyStruct, csGeologyInterval);
                         }
 
@@ -141,12 +139,22 @@ public class App {
                         while (chronostratigraphyStructIterator.hasNext()){
                             ChronostratigraphyStruct chronostratigraphyStruct = chronostratigraphyStructIterator.next();
 
-                            MudLogChronostatigraphicDao mudLogChronostatigraphicDaoImpl =
-                                    new MudLogChronostatigraphicDaoImpl();
-                            System.out.println("Insert Chronostatigraphic; kind/value="
-                                    + chronostratigraphyStruct.getKind().value() + "/"
-                                    + chronostratigraphyStruct.getValue());
+                            MudLogChronostatigraphicDao mudLogChronostatigraphicDaoImpl = new MudLogChronostatigraphicDaoImpl();
+                            System.out.println("Insert Chronostatigraphic; kind/value="+ chronostratigraphyStruct.getValue());
                             mudLogChronostatigraphicDaoImpl.save(chronostratigraphyStruct, csGeologyInterval);
+                        }
+
+                        // NameFormation
+                        Iterator<String> nameFormationIterator =
+                                csGeologyInterval.getNameFormation().iterator();
+                        System.out.println("Number of NameFormation=" + csGeologyInterval.getNameFormation().size());
+                        while (nameFormationIterator.hasNext()){
+                            String nameFormation = nameFormationIterator.next();
+
+                            MudLogNameFormationDao mudLogNameFormationDaoImpl =
+                                    new MudLogNameFormationDaoImpl();
+                            System.out.println("Insert NameFormation; value=" + nameFormation);
+                            mudLogNameFormationDaoImpl.save(nameFormation, csGeologyInterval);
                         }
                     }
                 }
